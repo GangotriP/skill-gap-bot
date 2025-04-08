@@ -80,7 +80,7 @@ def get_resume_tip_for_skill(skill):
 # Streamlit App
 st.set_page_config(page_title="Skill Gap Analyzer", layout="wide")
 st.title("🧠 Skill Gap Analyzer Bot (Powered by Together.ai)")
-st.image("A_colorful_2D_digital_infographic_titled_\"Skill_Ga.png", use_column_width=True)
+st.image("Skill_Gap_Infographic.png", use_column_width=True)
 
 st.markdown("Welcome! This tool helps you identify skill gaps between your current resume and your target role. Just upload your resume to begin 🚀")
 
