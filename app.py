@@ -80,13 +80,9 @@ def get_resume_tip_for_skill(skill):
 # Streamlit App
 st.set_page_config(page_title="Skill Gap Analyzer", layout="wide")
 st.title("🧠 Skill Gap Analyzer Bot (Powered by Together.ai)")
-st.image("Skill_Gap_Infographic.png", use_column_width=True)
+st.image("Skill_Gap_Infographic.png", use_container_width=True)
 
 st.markdown("Welcome! This tool helps you identify skill gaps between your current resume and your target role. Just upload your resume to begin 🚀")
-
-# Reset button
-if st.button("🔄 Reset"):
-    st.experimental_rerun()
 
 uploaded_file = st.file_uploader("Upload your resume (PDF)", type="pdf")
 role = st.selectbox("Select your target role", ["Instructional Designer", "Technical Program Manager", "Product Manager", "Data Analyst"])
@@ -94,8 +90,14 @@ role = st.selectbox("Select your target role", ["Instructional Designer", "Techn
 # Step tracker
 if uploaded_file:
     st.success("✅ Step 1: Resume uploaded")
-if role:
+if uploaded_file and role:
     st.success("✅ Step 2: Target role selected")
+
+# Reset button (appears only after both inputs)
+if uploaded_file and role:
+    if st.button("🔄 Reset"):
+        st.session_state.clear()
+        st.experimental_rerun()
 
 if uploaded_file and role:
     if st.button("🔍 Run Skill Gap Analysis"):
