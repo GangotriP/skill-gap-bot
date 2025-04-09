@@ -10,7 +10,12 @@ import json
 TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY") or "6dbe5caf57bf8bd1229c1e8db65c5b2264057440407563f1ef7c9fbd25c497bc"
 
 # Load roles and skills from JSON
-with open("roles_and_skills.json") as f:
+json_path = "roles_and_skills.json"
+if not os.path.exists(json_path):
+    st.error("Missing roles_and_skills.json. Make sure the file is in your app directory.")
+    st.stop()
+
+with open(json_path) as f:
     ROLE_SKILL_MAP = json.load(f)
 
 # Call Together.ai for responses
@@ -83,54 +88,52 @@ st.markdown("Welcome! This tool helps you identify skill gaps between your curre
 role = st.selectbox("Select your target role", list(ROLE_SKILL_MAP.keys()))
 uploaded_file = st.file_uploader("Upload your resume (PDF)", type="pdf")
 
-# Step tracker
+# Step tracker UX adjustment
+if role:
+    st.success("✅ Step 1: Target role selected")
 if uploaded_file:
-    st.success("✅ Step 1: Resume uploaded")
-if uploaded_file and role:
-    st.success("✅ Step 2: Target role selected")
+    st.success("✅ Step 2: Resume uploaded")
 
 if uploaded_file and role:
     col1, col2 = st.columns([3, 1])
     with col1:
         run_analysis = st.button("🔍 Run Skill Gap Analysis", type="primary")
     with col2:
-        reset_clicked = st.button("🔄 Reset")
-
-    if reset_clicked:
-        for key in list(st.session_state.keys()):
-            del st.session_state[key]
-        st.experimental_rerun()
+        if st.button("🔄 Reset"):
+            st.session_state.clear()
+            st.experimental_rerun()
 
     if run_analysis:
-        resume_text = extract_text_from_pdf(uploaded_file)
-        skill_output = get_skills_from_resume(resume_text)
-        if skill_output:
-            extracted_skills = [skill.strip() for skill in skill_output.split(",")]
+        with st.spinner("Analyzing resume and generating recommendations..."):
+            resume_text = extract_text_from_pdf(uploaded_file)
+            skill_output = get_skills_from_resume(resume_text)
+            if skill_output:
+                extracted_skills = [skill.strip() for skill in skill_output.split(",")]
 
-            st.subheader("✅ Skills Found in Resume")
-            st.write(extracted_skills)
+                st.subheader("✅ Skills Found in Resume")
+                st.write(extracted_skills)
 
-            missing_skills = compare_with_role(extracted_skills, role)
+                missing_skills = compare_with_role(extracted_skills, role)
 
-            st.subheader("🚨 Skills You’re Missing for This Role")
-            if missing_skills:
-                st.markdown("\n".join([f"🔸 {skill}" for skill in missing_skills]))
-            else:
-                st.success("🎉 You have all the expected skills!")
+                st.subheader("🚨 Skills You’re Missing for This Role")
+                if missing_skills:
+                    st.markdown("\n".join([f"🔸 {skill}" for skill in missing_skills]))
+                else:
+                    st.success("🎉 You have all the expected skills!")
 
-            if missing_skills:
-                st.success("✅ Step 3: Skill gap identified")
-                tips = get_learning_recommendations(missing_skills)
-                st.subheader("📚 Learning Recommendations")
-                st.write(tips)
+                if missing_skills:
+                    st.success("✅ Step 3: Skill gap identified")
+                    tips = get_learning_recommendations(missing_skills)
+                    st.subheader("📚 Learning Recommendations")
+                    st.write(tips)
 
-                st.markdown("---")
-                st.markdown("### 🛠 Already have one of these skills?")
-                if st.button("✅ I have one of these!"):
+                    st.success("✅ Step 4: Learning recommendations complete")
+
+                    st.markdown("---")
+                    st.markdown("### 🛠 Already have one of these skills?")
                     claimed = st.text_input("Which skill do you already have?")
-                    if claimed and st.button("✍️ Generate Resume + LinkedIn Suggestion"):
-                        fix = get_resume_tip_for_skill(claimed)
-                        st.subheader("🪪 Resume + LinkedIn Suggestions")
-                        st.write(fix)
-
-            st.success("✅ Step 4: Analysis complete")
+                    if claimed:
+                        if st.button("✍️ Generate Resume + LinkedIn Suggestion"):
+                            fix = get_resume_tip_for_skill(claimed)
+                            st.subheader("🪪 Resume + LinkedIn Suggestions")
+                            st.write(fix)
