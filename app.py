@@ -85,7 +85,7 @@ st.image("Skill_Gap_Infographic.png", use_container_width=True)
 
 st.markdown("Welcome! This tool helps you identify skill gaps between your current resume and your target role. Just select a role from the dropdown and upload your resume to begin 🚀")
 
-role = st.selectbox("Select your target role", list(ROLE_SKILL_MAP.keys()))
+role = st.selectbox("Select your target role", ["Select a role"] + list(ROLE_SKILL_MAP.keys()))
 uploaded_file = st.file_uploader("Upload your resume (PDF)", type="pdf")
 
 # Step tracker UX adjustment
@@ -94,7 +94,7 @@ if role and role != "Select a role":
 if uploaded_file:
     st.success("✅ Step 2: Resume uploaded")
 
-if uploaded_file and role:
+if uploaded_file and role and role != "Select a role":
     col1, col2 = st.columns([3, 1])
     with col1:
         run_analysis = st.button("🔍 Run Skill Gap Analysis", type="primary")
