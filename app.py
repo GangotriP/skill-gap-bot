@@ -89,7 +89,7 @@ role = st.selectbox("Select your target role", list(ROLE_SKILL_MAP.keys()))
 uploaded_file = st.file_uploader("Upload your resume (PDF)", type="pdf")
 
 # Step tracker UX adjustment
-if role:
+if role and role != "Select a role":
     st.success("✅ Step 1: Target role selected")
 if uploaded_file:
     st.success("✅ Step 2: Resume uploaded")
