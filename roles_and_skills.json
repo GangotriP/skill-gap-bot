@@ -1,0 +1,97 @@
+{
+  "Instructional Designer": [
+    "instructional design",
+    "addie",
+    "articulate storyline",
+    "lms",
+    "scorm",
+    "training needs analysis",
+    "kirkpatrick",
+    "elearning",
+    "job aids",
+    "video scripting",
+    "stakeholder management",
+    "customer training",
+    "support enablement"
+  ],
+  "Technical Program Manager": [
+    "program management",
+    "agile",
+    "jira",
+    "confluence",
+    "roadmaps",
+    "cross-functional collaboration",
+    "technical specifications",
+    "data analysis",
+    "process automation",
+    "kpis",
+    "business intelligence",
+    "risk management",
+    "tool implementation",
+    "okrs"
+  ],
+  "Product Manager": [
+    "roadmapping",
+    "jira",
+    "a/b testing",
+    "sql",
+    "stakeholder management",
+    "analytics"
+  ],
+  "Data Analyst": [
+    "sql",
+    "excel",
+    "tableau",
+    "python",
+    "statistics"
+  ],
+  "UX Designer": [
+    "user research",
+    "wireframing",
+    "figma",
+    "design systems",
+    "usability testing",
+    "interaction design",
+    "accessibility",
+    "prototyping"
+  ],
+  "Business Analyst": [
+    "requirements gathering",
+    "stakeholder management",
+    "process modeling",
+    "sql",
+    "gap analysis",
+    "data visualization",
+    "agile",
+    "report writing"
+  ],
+  "Project Manager": [
+    "project planning",
+    "timeline management",
+    "risk assessment",
+    "budgeting",
+    "resource allocation",
+    "pmi",
+    "scrum",
+    "communication plans"
+  ],
+  "Frontend Developer": [
+    "html",
+    "css",
+    "javascript",
+    "react",
+    "git",
+    "responsive design",
+    "api integration"
+  ],
+  "Digital Marketer": [
+    "seo",
+    "sem",
+    "google analytics",
+    "email marketing",
+    "social media strategy",
+    "content creation",
+    "campaign management",
+    "a/b testing"
+  ]
+}
