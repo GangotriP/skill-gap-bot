@@ -100,10 +100,15 @@ if uploaded_file and role and role != "Select a role":
         if st.button("🔍 Run Skill Gap Analysis", type="primary"):
             st.session_state["run_analysis_clicked"] = True
     with col2:
-        if st.button("🔄 Reset"):
-            for key in list(st.session_state.keys()):
-                del st.session_state[key]
-            st.experimental_rerun()
+    if st.button("🔄 Reset"):
+        st.session_state["reset_triggered"] = True
+
+    # Trigger rerun safely outside of widget context
+    if st.session_state.get("reset_triggered"):
+        for key in list(st.session_state.keys()):
+            del st.session_state[key]
+        st.experimental_rerun()
+
 
     if st.session_state.get("run_analysis_clicked"):
         # Extract resume text
