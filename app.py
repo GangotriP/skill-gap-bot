@@ -104,10 +104,9 @@ if uploaded_file and role and role != "Select a role":
                 del st.session_state[key]
             st.experimental_rerun()
 
-    if run_analysis:
-        with st.spinner("⏳ Extracting skills and checking against role requirements..."):
-            resume_text = extract_text_from_pdf(uploaded_file)
-            skill_output = get_skills_from_resume(resume_text)
+    if st.session_state.get("run_analysis_clicked") and "extracted_skills" in st.session_state:
+                st.session_state.skill_output = skill_output
+                st.session_state.extracted_skills = st.session_state.extracted_skills
             if skill_output:
                 extracted_skills = [skill.strip() for skill in skill_output.split(",")]
 
