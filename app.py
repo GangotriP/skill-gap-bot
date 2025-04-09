@@ -136,7 +136,10 @@ if uploaded_file and role and role != "Select a role":
                     with st.form("resume_update_form"):
                         claimed = st.text_input("Which skill do you already have?")
                         submitted = st.form_submit_button("✍️ Generate Resume + LinkedIn Suggestion", type="primary")
-                        if submitted and claimed and claimed.strip().lower() != "none":
-                            fix = get_resume_tip_for_skill(claimed)
-                            st.subheader("🪪 Resume + LinkedIn Suggestions")
-                            st.write(fix)
+                        if submitted:
+                            if claimed and claimed.strip().lower() != "none":
+                                fix = get_resume_tip_for_skill(claimed)
+                                st.subheader("🪪 Resume + LinkedIn Suggestions")
+                                st.write(fix)
+                            else:
+                                st.warning("Please enter a valid skill.")
