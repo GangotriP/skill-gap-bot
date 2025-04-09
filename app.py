@@ -179,3 +179,5 @@ if st.session_state.run_analysis_clicked:
                             st.write(fix)
                         else:
                             st.warning("Please enter a valid skill.")
+                        else:
+                            st.warning("Please enter a valid skill.")
