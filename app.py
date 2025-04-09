@@ -100,8 +100,9 @@ if uploaded_file and role and role != "Select a role":
         run_analysis = st.button("🔍 Run Skill Gap Analysis", type="primary")
     with col2:
         if st.button("🔄 Reset"):
-            st.session_state.clear()
-            st.rerun()
+            for key in list(st.session_state.keys()):
+                del st.session_state[key]
+            st.experimental_rerun()
 
     if run_analysis:
         with st.spinner("⏳ Extracting skills and checking against role requirements..."):
