@@ -83,7 +83,7 @@ st.set_page_config(page_title="Skill Gap Analyzer", layout="wide")
 st.title("🧠 Skill Gap Analyzer Bot (Powered by Together.ai)")
 st.image("Skill_Gap_Infographic.png", use_container_width=True)
 
-st.markdown("Welcome! This tool helps you identify skill gaps between your current resume and your target role. Just upload your resume to begin 🚀")
+st.markdown("Welcome! This tool helps you identify skill gaps between your current resume and your target role. Just select a role from the dropdown and upload your resume to begin 🚀")
 
 role = st.selectbox("Select your target role", list(ROLE_SKILL_MAP.keys()))
 uploaded_file = st.file_uploader("Upload your resume (PDF)", type="pdf")
