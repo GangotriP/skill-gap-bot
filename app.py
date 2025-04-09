@@ -101,10 +101,10 @@ if uploaded_file and role:
     with col2:
         if st.button("🔄 Reset"):
             st.session_state.clear()
-            st.experimental_rerun()
+            st.rerun()
 
     if run_analysis:
-        with st.spinner("Analyzing resume and generating recommendations..."):
+        with st.spinner("⏳ Extracting skills and checking against role requirements..."):
             resume_text = extract_text_from_pdf(uploaded_file)
             skill_output = get_skills_from_resume(resume_text)
             if skill_output:
@@ -131,9 +131,11 @@ if uploaded_file and role:
 
                     st.markdown("---")
                     st.markdown("### 🛠 Already have one of these skills?")
-                    claimed = st.text_input("Which skill do you already have?")
-                    if claimed:
-                        if st.button("✍️ Generate Resume + LinkedIn Suggestion"):
+
+                    with st.form("resume_update_form"):
+                        claimed = st.text_input("Which skill do you already have?")
+                        submitted = st.form_submit_button("✍️ Generate Resume + LinkedIn Suggestion")
+                        if submitted and claimed:
                             fix = get_resume_tip_for_skill(claimed)
                             st.subheader("🪪 Resume + LinkedIn Suggestions")
                             st.write(fix)
