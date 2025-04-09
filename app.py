@@ -133,13 +133,49 @@ if uploaded_file and role and role != "Select a role":
                     st.markdown("---")
                     st.markdown("### 🛠 Already have one of these skills?")
 
-                    with st.form("resume_update_form"):
-                        claimed = st.text_input("Which skill do you already have?")
-                        submitted = st.form_submit_button("✍️ Generate Resume + LinkedIn Suggestion", type="primary")
-                        if submitted:
-                            if claimed and claimed.strip().lower() != "none":
-                                fix = get_resume_tip_for_skill(claimed)
-                                st.subheader("🪪 Resume + LinkedIn Suggestions")
-                                st.write(fix)
-                            else:
-                                st.warning("Please enter a valid skill.")
+                    if 'run_analysis_clicked' not in st.session_state:
+    st.session_state.run_analysis_clicked = False
+
+if run_analysis:
+    st.session_state.run_analysis_clicked = True
+
+if st.session_state.run_analysis_clicked:
+    with st.spinner("⏳ Extracting skills and checking against role requirements..."):
+        resume_text = extract_text_from_pdf(uploaded_file)
+        skill_output = get_skills_from_resume(resume_text)
+        if skill_output:
+            extracted_skills = [skill.strip() for skill in skill_output.split(",")]
+
+            st.subheader("✅ Skills Found in Resume")
+            st.write(extracted_skills)
+
+            missing_skills = compare_with_role(extracted_skills, role)
+
+            st.subheader("🚨 Skills You’re Missing for This Role")
+            if missing_skills:
+                st.markdown("
+".join([f"🔸 {skill}" for skill in missing_skills]))
+            else:
+                st.success("🎉 You have all the expected skills!")
+
+            if missing_skills:
+                st.success("✅ Step 3: Skill gap identified")
+                tips = get_learning_recommendations(missing_skills)
+                st.subheader("📚 Learning Recommendations")
+                st.write(tips)
+
+                st.success("✅ Step 4: Learning recommendations complete")
+
+                st.markdown("---")
+                st.markdown("### 🛠 Already have one of these skills?")
+
+                with st.form("resume_update_form"):
+                    claimed = st.text_input("Which skill do you already have?")
+                    submitted = st.form_submit_button("✍️ Generate Resume + LinkedIn Suggestion", type="primary")
+                    if submitted:
+                        if claimed and claimed.strip().lower() != "none":
+                            fix = get_resume_tip_for_skill(claimed)
+                            st.subheader("🪪 Resume + LinkedIn Suggestions")
+                            st.write(fix)
+                        else:
+                            st.warning("Please enter a valid skill.")
